@@ -1,0 +1,15 @@
+[project]
+name = "tutorial-langchain"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "bs4>=0.0.2",
+    "langchain[anthoropic]>=1.2.10",
+    "langchain-community>=0.4.1",
+    "langchain-text-splitters>=1.1.1",
+    "langchain-openai>=1.1.10",
+    "langchain-postgres>=0.0.17",
+    "jupyter>=1.1.1",
+]
