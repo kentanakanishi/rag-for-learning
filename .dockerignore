@@ -1,0 +1,8 @@
+# .dockerignore
+.claude
+.env
+.git
+__pycache__
+*.pyc
+.venv
+chroma_data/
