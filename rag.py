@@ -6,6 +6,7 @@ from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnablePassthrough
 from langchain_chroma import Chroma
+import chromadb
 from langchain_openai import AzureChatOpenAI, AzureOpenAIEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
@@ -54,9 +55,19 @@ def load_and_split_text(text: str, source: str = "user_input") -> list[Document]
 def create_vector_store(
     documents: list[Document],
     embeddings: AzureOpenAIEmbeddings,
+    host: str = "localhost",
+    port: int = 8000,
+    collection_name: str = "rag_collection",
 ) -> Chroma:
-    return Chroma.from_documents(documents=documents, embedding=embeddings)
-
+    # サーバーモードのクライアントを作成
+    client = chromadb.HttpClient(host=host, port=port)
+    
+    return Chroma.from_documents(
+        documents=documents,
+        embedding=embeddings,
+        client=client,
+        collection_name=collection_name,
+    )
 
 def add_to_vector_store(
     vector_store: Chroma,

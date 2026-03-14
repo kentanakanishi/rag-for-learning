@@ -1,0 +1,20 @@
+services:
+  chromadb:                              # ①サービス名
+    image: chromadb/chroma:latest        # ②使うイメージ
+    ports:
+      - "8000:8000"                      # ③ポートマッピング
+    volumes:
+      - chroma_data:/chroma/chroma       # ④ボリューム（永続化）
+
+  streamlit:                             # ①サービス名
+    build: .                             # ⑤Dockerfileからビルド
+    ports:
+      - "8501:8501"                      # ③ポートマッピング
+    environment:
+      - CHROMA_HOST=chromadb             # ⑥環境変数
+      - CHROMA_PORT=8000
+    depends_on:
+      - chromadb                         # ⑦起動順序
+
+volumes:
+  chroma_data:                           # ⑧ボリューム定義
